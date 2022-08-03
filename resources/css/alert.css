@@ -1,0 +1,8 @@
+.alert-danger {
+	border: 1px solid #ccc;
+	background-color: red;
+	border-radius: 3px 3px 3px 3px;
+	color: white;
+	text-align:left;
+	float: left;
+}

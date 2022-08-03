@@ -1,0 +1,21 @@
+
+
+.btn1{
+    margin: 16px;
+    padding: 16px;
+    background-color: #4fd7de;
+    color: black; 
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.btn2{
+    margin: 16px;
+    padding: 16px;
+    background-color: #cc94e9;
+    color: black; 
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+}

@@ -1,0 +1,47 @@
+{
+  "resources/js/app.js": {
+    "file": "assets/app.d7a3426a.js",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/css/profile.css": {
+    "file": "assets/profile.b3ba566c.css",
+    "src": "resources/css/profile.css",
+    "isEntry": true
+  },
+  "resources/css/home.css": {
+    "file": "assets/home.4e195cc3.css",
+    "src": "resources/css/home.css",
+    "isEntry": true
+  },
+  "resources/css/chat.css": {
+    "file": "assets/chat.4a77df6e.css",
+    "src": "resources/css/chat.css",
+    "isEntry": true
+  },
+  "resources/css/alert.css": {
+    "file": "assets/alert.d34e3a86.css",
+    "src": "resources/css/alert.css",
+    "isEntry": true
+  },
+  "resources/css/button.css": {
+    "file": "assets/button.8417121e.css",
+    "src": "resources/css/button.css",
+    "isEntry": true
+  },
+  "resources/css/login.css": {
+    "file": "assets/login.9a1ea7fa.css",
+    "src": "resources/css/login.css",
+    "isEntry": true
+  },
+  "resources/css/header.css": {
+    "file": "assets/header.7ccc94e3.css",
+    "src": "resources/css/header.css",
+    "isEntry": true
+  },
+  "resources/css/table.css": {
+    "file": "assets/table.9d0b4df4.css",
+    "src": "resources/css/table.css",
+    "isEntry": true
+  }
+}
