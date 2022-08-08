@@ -12,22 +12,24 @@
 
 <body>
   <section>
+    <div class="people">
     @foreach ($users as $item)
     @if (isset(request()->user) && request()->user->username != $item['username'])
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding:0; margin:0%">
       <div class="container">
         <div class="row">
-          <div class="col-sm-4">
+          <div class="col-sm-4" style="padding:10px">
             <div class="card text-center">
               <div class="title">
                 <i class="fa fa-paper-plane" aria-hidden="true"></i>
                 <h2>{{$item['username']}}</h2>
               </div>
-              <a href="/chat/{{$item['id']}}/{{$item['fname']}}">Chat Now </a>
+              <a href="/chat/{{\Crypt::encrypt($item['id'])}}/{{\Crypt::encrypt($item['fname'])}}">Chat Now </a>
             </div>
           </div>
           @endif
           @endforeach
+        </div>
   </section>
 </body>
 </html>

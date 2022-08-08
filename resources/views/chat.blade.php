@@ -1,10 +1,10 @@
 @php
 
 if (!isset($id)) {
-    echo 'write localhost/login';
-    die();
+    echo 'burada!';
 } else {
     global $outgoing_id;
+
     global $incoming_id;
     $outgoing_id = $id;
     if (isset(request()->user)) {
@@ -24,6 +24,7 @@ if (!isset($id)) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
     @vite(['resources/css/chat.css', 'resources/css/alert.css'])
 
 </head>
@@ -58,83 +59,76 @@ if (!isset($id)) {
         </section>
     </div>
     <script>
-        $("#myDiv").animate({
-            scrollTop: $('#myDiv')[0].scrollHeight * 4
-        });
-
-
         $(document).ready(function() {
-            // FETCHING DATA FROM JSON FILE
-            $.getJSON("/chat/data", function(data) {
-                var space = '';
-                var symbol_up =
-                    '<h4 style="color:red; margin-right:0px; float:right; text-align:right">&#8648;';
-                var symbol_down =
-                    '<h4style="color:black; margin-left:0px; float:left; text-align:left; ">&#8650;';
-                var forward = '(';
-                var back = ')';
 
-                // ITERATING THROUGH OBJECTS
-                $.each(data, function(key, value) {
+            setInterval(function(){
 
-                    // gönderilen mesajlar
-                    if ((value.incoming_msg === "{{ $incoming_id }}" &&
-                            value.outgoing_mdg === "{{ $outgoing_id }}")) {
-
-                        space = space + '<tr>';
-                        space = space + '<td>' + symbol_up + forward + value.text + back + '</td>';
-                        space = space + '<td>' + value.datetime_submitted + '</td>';
-
-                        //space = space + '<td>' +'<a href="/control?id=<?php echo $incoming_id; ?>"  class="button">delete message!</a> <p id="demo"></p>' + '</td>';
-                        space = space + '<tr>';
-                    }
-
-                    // alınan mesajlar
-                    if ((value.incoming_msg === "{{ $outgoing_id }}" &&
-                            value.outgoing_mdg === "{{ $incoming_id }}")) {
-
-
-                        space = space + '<tr>';
-                        space = space + '<td>' + symbol_down + forward + value.text + back +
-                            '</td>';
-                        space = space + '<td>' + value.datetime_submitted + '</td>';
-
-                        space = space + '<tr>';
-                    }
-                });
-                //INSERTING ROWS INTO TABLE
-                $('#table').append(space);
+                $("#myDiv").animate({
+                scrollTop: $('#myDiv')[0].scrollHeight * 4
             });
 
-            $("#driver").click(function(e) {
-                var dataString = $("#message-form").serialize();
 
-                $.ajax({
-                    type: "POST",
-                    url: "/chat/store/{{ $outgoing_id }}",
-                    data: dataString,
-                    success: function(data) {
-                        if (typeof data.error === 'undefined')
-                            location.reload();
-                    }
-                });
-                e.preventDefault();
+            //////////////////////////////////////////////////////////
+
+            var dataString = $("#message-form").serialize();
+            // setInterval(function() { document.getElementById("table").innerHTML += "Hello"}, 1000);
+            // page load
+            $.ajax({
+                type: "POST",
+                url: "/chat/get/{{ $outgoing_id }}",
+                data: dataString,
+                success: function(data) {
+
+                    $("#table").html('');
+
+                    res = JSON.stringify(data);
+
+                    var stringify = JSON.parse(res);
+                    var symbol_up = '<h4 style="color:red;">&#8648;';
+                    var symbol_down = '<h4 style="color:black; ">&#8650;';
+                    for (var i = 0; i < stringify.length; i++) {
+                        if (stringify[i]['incoming_msg_id'] === {{ $incoming_id }}) {
+                            document.getElementById("table").innerHTML += symbol_up + stringify[i]['msg'] +
+                            " "+stringify[i]['created_at'] + '<br>';
+                        } else {
+                            document.getElementById("table").innerHTML += symbol_down + stringify[i]['msg'] +
+                            " "+stringify[i]['created_at'] + '<br>';
+                        }
+                    };
+                }
             });
+
+            }, 3000);
 
         });
 
-        function myFunction() {
-            // mesaj silinecek !
-            // data = {
-            //     id: incoming_msg,
-            //     _method: 'delete'
-            // };
-            // url = '/control'
-            // request = $.post(url, data);
-            // request.done(function(res) {
-            //     alert('Yupi Yei. Message has been deleted')
-            // });
-        }
+
+        //////////////////////////////////////////////////////////
+
+        // message add
+
+        $("#driver").click(function(e) {
+            var dataString = $("#message-form").serialize();
+
+
+            $.ajax({
+                type: "POST",
+                url: "/chat/store/{{ $outgoing_id }}",
+                data: dataString,
+                success: function(data) {
+
+                    let msg = $('<h4 />')
+                        .css('color', 'red')
+                        .html('&#8648;' + data.msg);
+
+                    $('#table').append(msg);
+
+                    $('#text').val('');
+
+                }
+            });
+            e.preventDefault();
+        });
     </script>
 </body>
 

@@ -7,14 +7,12 @@ use App\Http\Middleware\CheckUser;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\JsonController;
 use App\Http\Middleware\UserAuth;
-
-
+use Illuminate\Support\Facades\Crypt;
 
 Route::middleware(CheckUser::class)->group(function () {
     Route::get('/login', function () {
         return view('login');
     });
-
 
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
@@ -22,14 +20,10 @@ Route::middleware(CheckUser::class)->group(function () {
     Route::middleware(UserAuth::class)->group(function () {
 
         Route::get('/home', [UserController::class, 'index']);
-        Route::get('/', [JsonController::class, 'index']);
+        //Route::get('/', [JsonController::class, 'index']);
 
         Route::get('/profile', function () {
             return view('profile');
-        });
-
-        Route::get('/chat/{id}/{fname}', function ($id, $fname) {
-            return view('chat', ['id' => $id], ['fname' => $fname]);
         });
 
         Route::get('/logout', function () {
@@ -37,9 +31,13 @@ Route::middleware(CheckUser::class)->group(function () {
             return view('/login');
         });
 
+        Route::get('/chat/{id}/{fname}', function ($id, $fname) {
+            return view('/chat', ['id' => Crypt::decrypt($id)], ['fname' => Crypt::decrypt($fname)]);
+        });
 
-        Route::post('/chat/store/{outgoing_msg_id}', [JsonController::class, 'store']);
-        Route::get('/chat/data', [JsonController::class, 'data']);
-        Route::get('/control', [DataController::class, 'control']);
+        Route::post('/chat/get/{outgoing_id}', [JsonController::class, 'get']);
+
+        Route::post('/chat/store/{outgoing_id}', [JsonController::class, 'store']);
+        // Route::get('/control', [DataController::class, 'control']);
     });
 });
