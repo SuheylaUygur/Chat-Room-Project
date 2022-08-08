@@ -89,10 +89,10 @@ if (!isset($id)) {
                     for (var i = 0; i < stringify.length; i++) {
                         if (stringify[i]['incoming_msg_id'] === {{ $incoming_id }}) {
                             document.getElementById("table").innerHTML += symbol_up + stringify[i]['msg'] +
-                            " "+stringify[i]['created_at'] + '<br>';
+                            " "+stringify[i]['created_at']  + '<a href="/delete/'+stringify[i]['id']+'" class="button">  Delete Message</a>' + '<br>';
                         } else {
                             document.getElementById("table").innerHTML += symbol_down + stringify[i]['msg'] +
-                            " "+stringify[i]['created_at'] + '<br>';
+                            " "+stringify[i]['created_at'] + '<a href="/delete/'+stringify[i]['id']+'" class="button">  Delete Message</a>' + '<br>';
                         }
                     };
                 }

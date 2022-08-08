@@ -26,6 +26,10 @@ Route::middleware(CheckUser::class)->group(function () {
             return view('profile');
         });
 
+        Route::get('/delete', function () {
+            return view('/delete');
+        });
+
         Route::get('/logout', function () {
             Session::forget('user_id');
             return view('/login');
@@ -36,6 +40,8 @@ Route::middleware(CheckUser::class)->group(function () {
         });
 
         Route::post('/chat/get/{outgoing_id}', [JsonController::class, 'get']);
+        Route::get('/delete/{id}', [JsonController::class, 'delete']);
+
 
         Route::post('/chat/store/{outgoing_id}', [JsonController::class, 'store']);
         // Route::get('/control', [DataController::class, 'control']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use Exception;
+use Illuminate\Console\View\Components\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -33,6 +34,19 @@ class JsonController extends Controller
         ])->get();
 
         return response()->json($all);
+    }
+
+    public function delete(Request $request,$id)
+    {
+
+        $del = DB::table('messages')
+        ->select('id')
+        ->where('id', '=', $id)
+        ->first();
+
+        Message::destroy($del->id);
+
+        return redirect('/delete');
     }
 
     function store(Request $request,$outgoing_id)
